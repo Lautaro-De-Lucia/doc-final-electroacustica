@@ -264,7 +264,7 @@ Ordinariamente, la señal de una guitarra eléctrica no excede un $V_{pp}$ de $1
 
 </center>
 
-Para esto, el amplificador operacional $MCP6001$ resulto ideal, dado su bajo consumo y alta fidelidad. A continuación, se muestra el esquemático y la implementación. Se observa que estamos utilizando un divisor resistivo para polarizar $V_{in}$ a $1.65V$ y el amplificador en configuración no inversora con una ganancia $A_v=1+\frac{R_f}{R_1} \approx 2$. Los componentes se eligieron en función de su disponibilidad, aunque el alto valor de los resistores es una elección deliberada para limitar la corriente (ya que la nucleo puede proporcionar un máximo de $300mA$ y $A0$ podría el único puerto siendo utilizado).
+Para esto, el amplificador operacional $MCP6001$ resulto ideal, dado su bajo consumo y alta fidelidad. A continuación, se muestra el esquemático y la implementación. Se observa que estamos utilizando un divisor resistivo para polarizar $V_{in}$ a $1.65V$ y el amplificador en configuración no inversora con una ganancia $A_v=1+\frac{R_f}{R_1} \approx 2$. Los componentes se eligieron en función de su disponibilidad, aunque el alto valor de los resistores es una elección deliberada para limitar la corriente (ya que la nucleo puede proporcionar un máximo de $300mA$ y $A0$ podría no ser el único puerto siendo utilizado).
 
 
 <center>
@@ -351,4 +351,4 @@ Auditivamente, una implementación algorítmica de la descripción teórica de l
 
 En vista de los resultados, concluimos que resulta perfectamente posible implementar un pedal de distorsión mediante software en un microcontrolador que cuente con un ADC. 
 
-La viabilidad de la implementación de otros efectos va a depender de la complejidad del algoritmo asociado. La implementación de un efecto de Delay, por ejemplo, resulta bastante intuitiva, siendo un pedal de delay elemental un módulo $f(t,\alpha)$, siendo $t$ el tiempo entre repeticiones y $\alpha$ el factor de atenuación entre cada repetición. Esto sería fácil de llevar a cabo por medio de timers y buffers. En cambio, no resulta para nada intuitiva la implementación de un efecto como el ***Chorus***, el cual implica reproducir la misma señal con una leve variación de tono y fase
+La viabilidad de la implementación de otros efectos va a depender de la complejidad del algoritmo asociado. La implementación de un efecto de Delay, por ejemplo, resulta bastante intuitiva, siendo un pedal de delay elemental un módulo $f(t,\alpha)$, siendo $t$ el tiempo entre repeticiones y $\alpha$ el factor de atenuación entre cada repetición. Esto sería fácil de llevar a cabo por medio de timers y buffers. En cambio, no resulta para nada intuitiva la implementación de un efecto como el Chorus, el cual implica reproducir la misma señal con una leve variación de tono y fase.

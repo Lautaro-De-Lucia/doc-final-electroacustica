@@ -1,10 +1,10 @@
 ## Objetivos
 
-Estudiar las Características Acústicas de la Distorsión
+Estudiar las Características Electroacústicas de la Distorsión
 
 Compara y Contrastar las características de un pedal de distorsión real con una implementación algorítmica.
 
-Evaluar la viabilidad de la implementación de el efecto de distorsión en sistemas embebidos de bajos recursos.
+Evaluar la viabilidad de la implementación de el efecto de distorsión en un microcontrolador.
 
 ## Descripción
 
@@ -60,7 +60,7 @@ Finalmente, con el advenimiento de la NWOBHM (new wave of british heavy metal) e
 
 ## Parámetros Electroacústicos 
 
-- Desde el punto de vista teórico, si nuestro input fuese un tono, en el dominio del tiempo se observa un recorte deliberado (hard-clipping) de los picos de la onda, de modo que la amplitud se ve limitada y los picos aparecen achatados. En el dominio de la frecuencia, este comportamiento no lineal introduce armónicos adicionales, sobre todo armónicos impares (lo que se condice con el hecho de que estamos llevando a la senoidal a la forma de una cuadrada) y que prevalecen en altas frecuencias (decaen con menor intensidad en $f$). 
+Desde el punto de vista teórico, si nuestro input fuese un tono, en el dominio del tiempo se observa un recorte deliberado (hard-clipping) de los picos de la onda, de modo que la amplitud se ve limitada y los picos aparecen achatados. En el dominio de la frecuencia, este comportamiento no lineal introduce armónicos adicionales, sobre todo armónicos impares (lo que se condice con el hecho de que estamos llevando a la senoidal a la forma de una cuadrada) y que prevalecen en altas frecuencias (decaen con menor intensidad en $f$). 
 
 
 <center>
@@ -71,7 +71,7 @@ Finalmente, con el advenimiento de la NWOBHM (new wave of british heavy metal) e
 
 </center>
 
-- Observando sus características en el dominio de la frecuencia, resulta fácil inferir por qué un "power-chord" suena agradable al oído mientras que acordes complejos tienden a sonar "sucios". Un power chord se compone fundamentalmente de la tónica (fundamental) y la quinta justa. Esta combinación de intervalos produce introduce armónicos adicionales que agregan "grosor" a la señal al tiempo que, al estar todavía relativamente separados, los nuevos armónicos y su intermodulación no generan un alto grado de superposición. El resultado es un sonido más "lleno" que no llega a ser disonante. En cambio, si agregamos terceras o séptimas, estos armónicos empiezan a superponerse y el dominio de la frecuencia se asemeja cada vez más a una banda plana, que constituiría ruido puro. La señal pierde armonía e incorpora disonancia al punto de volverse desagradable. 
+Observando sus características en el dominio de la frecuencia, resulta fácil inferir por qué un "power-chord" suena agradable al oído mientras que acordes complejos tienden a sonar "sucios". Un power chord se compone fundamentalmente de la tónica (fundamental) y la quinta justa. Esta combinación de intervalos produce introduce armónicos adicionales que agregan "grosor" a la señal al tiempo que, al estar todavía relativamente separados, los nuevos armónicos y su intermodulación no generan un alto grado de superposición. El resultado es un sonido más "lleno" que no llega a ser disonante. En cambio, si agregamos terceras o séptimas, estos armónicos empiezan a superponerse y el dominio de la frecuencia se asemeja cada vez más a una banda plana, que constituiría ruido puro. La señal pierde armonía e incorpora disonancia al punto de volverse desagradable. 
 
 <center>
 
@@ -88,7 +88,7 @@ Finalmente, con el advenimiento de la NWOBHM (new wave of british heavy metal) e
 
 </center>
 
-- Por otro lado, observando sus características en el dominio del tiempo, resulta facil inferir por qué un pedal de distorsión incrementa el *sustain* de la señal (esto es, una mayor duración del sonido). En términos de la señal, la parte inicial (ataque) de la nota sufre saturación cuando la amplitud es alta, y, a medida que la amplitud de la onda disminuye, el sistema distorsionador (o saturador) continúa elevando las partes más débiles, prolongando su duración. 
+Por otro lado, observando sus características en el dominio del tiempo, resulta facil inferir por qué un pedal de distorsión incrementa el *sustain* de la señal (esto es, una mayor duración del sonido). En términos de la señal, la parte inicial (ataque) de la nota sufre saturación cuando la amplitud es alta, y, a medida que la amplitud de la onda disminuye, el sistema distorsionador (o saturador) continúa elevando las partes más débiles, prolongando su duración. 
 
 <center>
 
@@ -107,20 +107,15 @@ Finalmente, con el advenimiento de la NWOBHM (new wave of british heavy metal) e
 
 ## Implementación de una Distorsión "Ideal" Mediante Software
 
-- Si la esencia del efecto de distorsión es el hard-clipping, y la esencia del hard-clipping es recortar la señal, entonces una implementación algorítmica del efecto de distorsión debería ser muy sencilla. Tanto así que cualquier sistema embebido elemental con un ADC debería poder convertirse en un módulo distorsionador. El objetivo de esta sección es implementar una distorsión "ideal" mediante software a la cual pueda introducirsele una señal limpia y evaluar si efectivamente se comporta (en términos auditivos) como un pedal de distorsión.
+Si la esencia del efecto de distorsión es el hard-clipping, y la esencia del hard-clipping es recortar la señal, entonces una implementación algorítmica del efecto de distorsión debería ser muy sencilla. Tanto así que cualquier sistema embebido elemental con un ADC debería poder convertirse en un módulo distorsionador. El objetivo de esta sección es implementar una distorsión "ideal" mediante software a la cual pueda introducirsele una señal limpia y evaluar si efectivamente se comporta (en términos auditivos) como un pedal de distorsión.
 
 #### Algoritmo
 
-- El algorítmo de distorsión más sencillo posible consiste de definir un umbral fijo para el hard-clipping de modo que se recorte más o menos la señal en función de la amplitud. De esta forma, tenemos un solo "control" que es el nivel de distorsión. 
+El algorítmo de distorsión más sencillo posible consiste de definir un umbral fijo para el hard-clipping de modo que se recorte más o menos la señal en función de la amplitud. De esta forma, tenemos un solo "control" que es el nivel de distorsión. 
 
 ```py
 
 def apply_basic_distortion(signal, distortion):
-    """
-    'distortion' controla el grado de distorsión (0 a 1).
-    0 = sin distorsión, 1 = distorsión máxima.
-    """
-
     # Normalizar la señal para asegurar que esté en el rango [-1, 1].
     signal = signal / np.max(np.abs(signal))
     
@@ -140,7 +135,7 @@ def apply_basic_distortion(signal, distortion):
 
 #### Efecto sobre un "Tono" 
 
-- El gráfico en el dominio del tiempo evidencia claramente el hard-clipping. Auditivamente, el sonido es similar al de un pedal de distorsión, aunque las limitaciones de la implementación algorítmica se evidencian en que ambas señales pasan a ser indistinguibles a partir de los 5 segundos, indicando que este es precisamente el punto donde la amplitud del tono se reduce tanto que no se está aplicando clipping. De ahí que en el dominio de la frecuencia la diferencia no sea notable más allá de la presencia de varios armónicos en altas frecuencias que no están presentes en la señal limpia.
+El gráfico en el dominio del tiempo evidencia claramente el hard-clipping. Auditivamente, el sonido es similar al de un pedal de distorsión, aunque las limitaciones de la implementación algorítmica se evidencian en que ambas señales pasan a ser indistinguibles a partir de los 5 segundos, indicando que este es precisamente el punto donde la amplitud del tono se reduce tanto que no se está aplicando clipping. De ahí que en el dominio de la frecuencia la diferencia no sea notable más allá de la presencia de varios armónicos en altas frecuencias que no están presentes en la señal limpia.
 
 <center>
 

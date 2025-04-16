@@ -25,9 +25,9 @@
       <div class="crossnote markdown-preview  ">
       
 <h2 id="objetivos">Objetivos </h2>
-<p>Estudiar las Características Acústicas de la Distorsión</p>
+<p>Estudiar las Características Electroacústicas de la Distorsión</p>
 <p>Compara y Contrastar las características de un pedal de distorsión real con una implementación algorítmica.</p>
-<p>Evaluar la viabilidad de la implementación de el efecto de distorsión en sistemas embebidos de bajos recursos.</p>
+<p>Evaluar la viabilidad de la implementación de el efecto de distorsión en un microcontrolador.</p>
 <h2 id="descripción">Descripción </h2>
 <p>Comenzamos presentando las características acústicas de la distorsión. Luego, analizamos la distorsión de forma teórica, evaluando cuales son los cambios que introduce en la señal de entrada y como estos se manifestan en el dominio del tiempo y la frecuencia. Procedemos a utilizar esto como referencia para la implementación de una "distorsión ideal" mediante software. Procedemos a comparar esta implementación con un pedal de distorsión real, el Boss DS-1 y a hipotetizar el sobre el modelado de las características electroacústicas reales de este pedal en un algoritmo de distorsión por software. Una vez diseñado el algoritmo, lo llevamos a la práctica en un board NUCLEO-F103RB y sacamos conclusiones.</p>
 <h2 id="características-acústicas-de-la-distorsión">Características Acústicas de la Distorsión </h2>
@@ -64,16 +64,12 @@
 </audio>
 </center>
 <h2 id="parámetros-electroacústicos">Parámetros Electroacústicos </h2>
-<ul>
-<li>Desde el punto de vista teórico, si nuestro input fuese un tono, en el dominio del tiempo se observa un recorte deliberado (hard-clipping) de los picos de la onda, de modo que la amplitud se ve limitada y los picos aparecen achatados. En el dominio de la frecuencia, este comportamiento no lineal introduce armónicos adicionales, sobre todo armónicos impares (lo que se condice con el hecho de que estamos llevando a la senoidal a la forma de una cuadrada) y que prevalecen en altas frecuencias (decaen con menor intensidad en <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span>).</li>
-</ul>
+<p>Desde el punto de vista teórico, si nuestro input fuese un tono, en el dominio del tiempo se observa un recorte deliberado (hard-clipping) de los picos de la onda, de modo que la amplitud se ve limitada y los picos aparecen achatados. En el dominio de la frecuencia, este comportamiento no lineal introduce armónicos adicionales, sobre todo armónicos impares (lo que se condice con el hecho de que estamos llevando a la senoidal a la forma de una cuadrada) y que prevalecen en altas frecuencias (decaen con menor intensidad en <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span>).</p>
 <center>
 <h4 id="tono-con-hard-clipping">Tono con <em>Hard-Clipping</em> </h4>
 <p><img src="image.png" alt="alt text"></p>
 </center>
-<ul>
-<li>Observando sus características en el dominio de la frecuencia, resulta fácil inferir por qué un "power-chord" suena agradable al oído mientras que acordes complejos tienden a sonar "sucios". Un power chord se compone fundamentalmente de la tónica (fundamental) y la quinta justa. Esta combinación de intervalos produce introduce armónicos adicionales que agregan "grosor" a la señal al tiempo que, al estar todavía relativamente separados, los nuevos armónicos y su intermodulación no generan un alto grado de superposición. El resultado es un sonido más "lleno" que no llega a ser disonante. En cambio, si agregamos terceras o séptimas, estos armónicos empiezan a superponerse y el dominio de la frecuencia se asemeja cada vez más a una banda plana, que constituiría ruido puro. La señal pierde armonía e incorpora disonancia al punto de volverse desagradable.</li>
-</ul>
+<p>Observando sus características en el dominio de la frecuencia, resulta fácil inferir por qué un "power-chord" suena agradable al oído mientras que acordes complejos tienden a sonar "sucios". Un power chord se compone fundamentalmente de la tónica (fundamental) y la quinta justa. Esta combinación de intervalos produce introduce armónicos adicionales que agregan "grosor" a la señal al tiempo que, al estar todavía relativamente separados, los nuevos armónicos y su intermodulación no generan un alto grado de superposición. El resultado es un sonido más "lleno" que no llega a ser disonante. En cambio, si agregamos terceras o séptimas, estos armónicos empiezan a superponerse y el dominio de la frecuencia se asemeja cada vez más a una banda plana, que constituiría ruido puro. La señal pierde armonía e incorpora disonancia al punto de volverse desagradable.</p>
 <center>
 <h4 id="muestra---power-chord-vs-acorde-complejo">Muestra - Power Chord vs Acorde Complejo </h4>
 <audio controls="">
@@ -84,9 +80,7 @@
 <source src="complex.wav" type="audio/wav">
 </audio>
 </center>
-<ul>
-<li>Por otro lado, observando sus características en el dominio del tiempo, resulta facil inferir por qué un pedal de distorsión incrementa el <em>sustain</em> de la señal (esto es, una mayor duración del sonido). En términos de la señal, la parte inicial (ataque) de la nota sufre saturación cuando la amplitud es alta, y, a medida que la amplitud de la onda disminuye, el sistema distorsionador (o saturador) continúa elevando las partes más débiles, prolongando su duración.</li>
-</ul>
+<p>Por otro lado, observando sus características en el dominio del tiempo, resulta facil inferir por qué un pedal de distorsión incrementa el <em>sustain</em> de la señal (esto es, una mayor duración del sonido). En términos de la señal, la parte inicial (ataque) de la nota sufre saturación cuando la amplitud es alta, y, a medida que la amplitud de la onda disminuye, el sistema distorsionador (o saturador) continúa elevando las partes más débiles, prolongando su duración.</p>
 <center>
 <h4 id="muestra---sustain-con-vs-sin-distorsión">Muestra - Sustain con vs sin Distorsión </h4>
 <audio controls="">
@@ -98,19 +92,10 @@
 </audio>
 </center>
 <h2 id="implementación-de-una-distorsión-ideal-mediante-software">Implementación de una Distorsión "Ideal" Mediante Software </h2>
-<ul>
-<li>Si la esencia del efecto de distorsión es el hard-clipping, y la esencia del hard-clipping es recortar la señal, entonces una implementación algorítmica del efecto de distorsión debería ser muy sencilla. Tanto así que cualquier sistema embebido elemental con un ADC debería poder convertirse en un módulo distorsionador. El objetivo de esta sección es implementar una distorsión "ideal" mediante software a la cual pueda introducirsele una señal limpia y evaluar si efectivamente se comporta (en términos auditivos) como un pedal de distorsión.</li>
-</ul>
+<p>Si la esencia del efecto de distorsión es el hard-clipping, y la esencia del hard-clipping es recortar la señal, entonces una implementación algorítmica del efecto de distorsión debería ser muy sencilla. Tanto así que cualquier sistema embebido elemental con un ADC debería poder convertirse en un módulo distorsionador. El objetivo de esta sección es implementar una distorsión "ideal" mediante software a la cual pueda introducirsele una señal limpia y evaluar si efectivamente se comporta (en términos auditivos) como un pedal de distorsión.</p>
 <h4 id="algoritmo">Algoritmo </h4>
-<ul>
-<li>El algorítmo de distorsión más sencillo posible consiste de definir un umbral fijo para el hard-clipping de modo que se recorte más o menos la señal en función de la amplitud. De esta forma, tenemos un solo "control" que es el nivel de distorsión.</li>
-</ul>
+<p>El algorítmo de distorsión más sencillo posible consiste de definir un umbral fijo para el hard-clipping de modo que se recorte más o menos la señal en función de la amplitud. De esta forma, tenemos un solo "control" que es el nivel de distorsión.</p>
 <pre data-role="codeBlock" data-info="py" class="language-python py"><code><span class="token keyword keyword-def">def</span> <span class="token function">apply_basic_distortion</span><span class="token punctuation">(</span>signal<span class="token punctuation">,</span> distortion<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token triple-quoted-string string">"""
-    'distortion' controla el grado de distorsión (0 a 1).
-    0 = sin distorsión, 1 = distorsión máxima.
-    """</span>
-
     <span class="token comment"># Normalizar la señal para asegurar que esté en el rango [-1, 1].</span>
     signal <span class="token operator">=</span> signal <span class="token operator">/</span> np<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span>np<span class="token punctuation">.</span><span class="token builtin">abs</span><span class="token punctuation">(</span>signal<span class="token punctuation">)</span><span class="token punctuation">)</span>
     
@@ -125,9 +110,7 @@
     <span class="token keyword keyword-return">return</span> clipped
 
 </code></pre><h4 id="efecto-sobre-un-tono">Efecto sobre un "Tono" </h4>
-<ul>
-<li>El gráfico en el dominio del tiempo evidencia claramente el hard-clipping. Auditivamente, el sonido es similar al de un pedal de distorsión, aunque las limitaciones de la implementación algorítmica se evidencian en que ambas señales pasan a ser indistinguibles a partir de los 5 segundos, indicando que este es precisamente el punto donde la amplitud del tono se reduce tanto que no se está aplicando clipping. De ahí que en el dominio de la frecuencia la diferencia no sea notable más allá de la presencia de varios armónicos en altas frecuencias que no están presentes en la señal limpia.</li>
-</ul>
+<p>El gráfico en el dominio del tiempo evidencia claramente el hard-clipping. Auditivamente, el sonido es similar al de un pedal de distorsión, aunque las limitaciones de la implementación algorítmica se evidencian en que ambas señales pasan a ser indistinguibles a partir de los 5 segundos, indicando que este es precisamente el punto donde la amplitud del tono se reduce tanto que no se está aplicando clipping. De ahí que en el dominio de la frecuencia la diferencia no sea notable más allá de la presencia de varios armónicos en altas frecuencias que no están presentes en la señal limpia.</p>
 <center>
 <p><img src="image-12.png" alt="alt text"><br>
 <img src="image-13.png" alt="alt text"></p>

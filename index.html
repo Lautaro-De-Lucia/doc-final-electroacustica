@@ -26,12 +26,12 @@
       
 <h2 id="objetivos">Objetivos </h2>
 <p>Estudiar las Características Electroacústicas de la Distorsión</p>
-<p>Compara y Contrastar las características de un pedal de distorsión real con una implementación algorítmica.</p>
+<p>Comparar y Contrastar las características de un pedal de distorsión real con una implementación algorítmica.</p>
 <p>Evaluar la viabilidad de la implementación de el efecto de distorsión en un microcontrolador.</p>
 <h2 id="descripción">Descripción </h2>
-<p>Comenzamos presentando las características acústicas de la distorsión. Luego, analizamos la distorsión de forma teórica, evaluando cuales son los cambios que introduce en la señal de entrada y como estos se manifestan en el dominio del tiempo y la frecuencia. Procedemos a utilizar esto como referencia para la implementación de una "distorsión ideal" mediante software. Procedemos a comparar esta implementación con un pedal de distorsión real, el Boss DS-1 y a hipotetizar el sobre el modelado de las características electroacústicas reales de este pedal en un algoritmo de distorsión por software. Una vez diseñado el algoritmo, lo llevamos a la práctica en un board NUCLEO-F103RB y sacamos conclusiones.</p>
+<p>Comenzamos presentando las características electroacústicas de la distorsión. Luego, analizamos la distorsión de forma teórica, evaluando cuales son los cambios que introduce en la señal de entrada y como estos se manifestan en el dominio del tiempo y la frecuencia. Procedemos a utilizar esto como referencia para la implementación de una "distorsión ideal" mediante software. Procedemos a comparar esta implementación con un pedal de distorsión real, el Boss DS-1, y a hipotetizar el sobre el modelado de las características electroacústicas reales de este pedal en un algoritmo de distorsión por software. Una vez diseñado el algoritmo, lo llevamos a la práctica en un board NUCLEO-F103RB y sacamos conclusiones.</p>
 <h2 id="características-acústicas-de-la-distorsión">Características Acústicas de la Distorsión </h2>
-<p>El efecto de <em><strong>distorsión</strong></em> pretende brindar un sonido agresivo y saturado a la señal de audio. Tiene su orígen en el "crunch", término que refiere a un clipping (distorsión por cruce) liviano producido por la saturación de las válvulas de un amplificador al exigirlo en volúmen. Este efecto auditivo fue aprovechado por guitarristas de rock y blues para obtener un sonido más agresivo y con mayor sustain que caracterizó el Blues-Rock de los años 50.</p>
+<p>El efecto de <em><strong>distorsión</strong></em> pretende brindar un sonido agresivo y saturado a la señal de audio. Tiene su orígen en el "crunch", término que refiere a un clipping (distorsión por cruce) liviano producido por la saturación de las válvulas de un amplificador al exigirlo en volúmen. Este efecto auditivo fue aprovechado por guitarristas de rock y blues para obtener un sonido más agresivo que caracterizó el Blues-Rock de los años 50.</p>
 <p>Al crunch le sucedio el <em><strong>overdrive</strong></em>, un efecto que busca emular mediante transistores el sonido de un amplificador saturado, permitiendo al usuario enfatizar esta saturación y logrando un sonido aun más agresivo. Este efecto fue esencial en el auge del Rock en los años 60 como género independiente del Blues.</p>
 <p>Finalmente, con el advenimiento de la NWOBHM (new wave of british heavy metal) en los años 70, se busco un efecto aún más agresivo, resultando en un pedal que deliberadamente recorta la señal de audio (hard clipping) a fines de lograr sonido agresivo, saturado y con un sustain prolongado, el cual expandió la frontera de lo posible en términos de técnica en guitarra eléctrica (dudosamente estilos como el <em>legatto</em>, <em>sweep picking</em> o <em>tapping</em> serían igualmente atractivos sin la saturación proporcionada por los pedales de distorsión).</p>
 <center>
@@ -92,7 +92,7 @@
 </audio>
 </center>
 <h2 id="implementación-de-una-distorsión-ideal-mediante-software">Implementación de una Distorsión "Ideal" Mediante Software </h2>
-<p>Si la esencia del efecto de distorsión es el hard-clipping, y la esencia del hard-clipping es recortar la señal, entonces una implementación algorítmica del efecto de distorsión debería ser muy sencilla. Tanto así que cualquier sistema embebido elemental con un ADC debería poder convertirse en un módulo distorsionador. El objetivo de esta sección es implementar una distorsión "ideal" mediante software a la cual pueda introducirsele una señal limpia y evaluar si efectivamente se comporta (en términos auditivos) como un pedal de distorsión.</p>
+<p>Si la esencia del efecto de distorsión es el hard-clipping, y la esencia del hard-clipping es recortar la señal, entonces una implementación algorítmica del efecto de distorsión debería ser muy sencilla. Tanto así que cualquier microcontrolador elemental con un ADC debería poder convertirse en un módulo distorsionador. El objetivo de esta sección es implementar una distorsión "ideal" mediante software a la cual pueda introducirsele una señal limpia y evaluar si efectivamente se comporta (en términos auditivos) como un pedal de distorsión.</p>
 <h4 id="algoritmo">Algoritmo </h4>
 <p>El algorítmo de distorsión más sencillo posible consiste de definir un umbral fijo para el hard-clipping de modo que se recorte más o menos la señal en función de la amplitud. De esta forma, tenemos un solo "control" que es el nivel de distorsión.</p>
 <pre data-role="codeBlock" data-info="py" class="language-python py"><code><span class="token keyword keyword-def">def</span> <span class="token function">apply_basic_distortion</span><span class="token punctuation">(</span>signal<span class="token punctuation">,</span> distortion<span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -122,6 +122,7 @@
 </audio>
 </center>
 <h4 id="efecto-sobre-un-riff">Efecto Sobre un Riff </h4>
+<p>Como se oye, el audio obtenido es en esencia similar a lo que obtendríamos a partir de un pedal de distorsión, aunque claramente puede detectarse cierta artificialidad en el sonido que delata la implementación algorítmica.</p>
 <center>
 <p><img src="image-14.png" alt="alt text"><br>
 <img src="image-15.png" alt="alt text"></p>

@@ -2,17 +2,17 @@
 
 Estudiar las Características Electroacústicas de la Distorsión
 
-Compara y Contrastar las características de un pedal de distorsión real con una implementación algorítmica.
+Comparar y Contrastar las características de un pedal de distorsión real con una implementación algorítmica.
 
 Evaluar la viabilidad de la implementación de el efecto de distorsión en un microcontrolador.
 
 ## Descripción
 
-Comenzamos presentando las características acústicas de la distorsión. Luego, analizamos la distorsión de forma teórica, evaluando cuales son los cambios que introduce en la señal de entrada y como estos se manifestan en el dominio del tiempo y la frecuencia. Procedemos a utilizar esto como referencia para la implementación de una "distorsión ideal" mediante software. Procedemos a comparar esta implementación con un pedal de distorsión real, el Boss DS-1 y a hipotetizar el sobre el modelado de las características electroacústicas reales de este pedal en un algoritmo de distorsión por software. Una vez diseñado el algoritmo, lo llevamos a la práctica en un board NUCLEO-F103RB y sacamos conclusiones. 
+Comenzamos presentando las características electroacústicas de la distorsión. Luego, analizamos la distorsión de forma teórica, evaluando cuales son los cambios que introduce en la señal de entrada y como estos se manifestan en el dominio del tiempo y la frecuencia. Procedemos a utilizar esto como referencia para la implementación de una "distorsión ideal" mediante software. Procedemos a comparar esta implementación con un pedal de distorsión real, el Boss DS-1, y a hipotetizar el sobre el modelado de las características electroacústicas reales de este pedal en un algoritmo de distorsión por software. Una vez diseñado el algoritmo, lo llevamos a la práctica en un board NUCLEO-F103RB y sacamos conclusiones. 
 
 ## Características Acústicas de la Distorsión
 
-El efecto de ***distorsión*** pretende brindar un sonido agresivo y saturado a la señal de audio. Tiene su orígen en el "crunch", término que refiere a un clipping (distorsión por cruce) liviano producido por la saturación de las válvulas de un amplificador al exigirlo en volúmen. Este efecto auditivo fue aprovechado por guitarristas de rock y blues para obtener un sonido más agresivo y con mayor sustain que caracterizó el Blues-Rock de los años 50. 
+El efecto de ***distorsión*** pretende brindar un sonido agresivo y saturado a la señal de audio. Tiene su orígen en el "crunch", término que refiere a un clipping (distorsión por cruce) liviano producido por la saturación de las válvulas de un amplificador al exigirlo en volúmen. Este efecto auditivo fue aprovechado por guitarristas de rock y blues para obtener un sonido más agresivo que caracterizó el Blues-Rock de los años 50. 
 
 Al crunch le sucedio el ***overdrive***, un efecto que busca emular mediante transistores el sonido de un amplificador saturado, permitiendo al usuario enfatizar esta saturación y logrando un sonido aun más agresivo. Este efecto fue esencial en el auge del Rock en los años 60 como género independiente del Blues. 
   
@@ -107,7 +107,7 @@ Por otro lado, observando sus características en el dominio del tiempo, resulta
 
 ## Implementación de una Distorsión "Ideal" Mediante Software
 
-Si la esencia del efecto de distorsión es el hard-clipping, y la esencia del hard-clipping es recortar la señal, entonces una implementación algorítmica del efecto de distorsión debería ser muy sencilla. Tanto así que cualquier sistema embebido elemental con un ADC debería poder convertirse en un módulo distorsionador. El objetivo de esta sección es implementar una distorsión "ideal" mediante software a la cual pueda introducirsele una señal limpia y evaluar si efectivamente se comporta (en términos auditivos) como un pedal de distorsión.
+Si la esencia del efecto de distorsión es el hard-clipping, y la esencia del hard-clipping es recortar la señal, entonces una implementación algorítmica del efecto de distorsión debería ser muy sencilla. Tanto así que cualquier microcontrolador elemental con un ADC debería poder convertirse en un módulo distorsionador. El objetivo de esta sección es implementar una distorsión "ideal" mediante software a la cual pueda introducirsele una señal limpia y evaluar si efectivamente se comporta (en términos auditivos) como un pedal de distorsión.
 
 #### Algoritmo
 
@@ -157,6 +157,7 @@ El gráfico en el dominio del tiempo evidencia claramente el hard-clipping. Audi
 
 #### Efecto Sobre un Riff
 
+Como se oye, el audio obtenido es en esencia similar a lo que obtendríamos a partir de un pedal de distorsión, aunque claramente puede detectarse cierta artificialidad en el sonido que delata la implementación algorítmica. 
 
 <center>
 

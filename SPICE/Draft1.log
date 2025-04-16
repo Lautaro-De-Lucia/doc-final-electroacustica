@@ -1,0 +1,11 @@
+LTspice 24.0.12 for Windows
+Circuit: * C:\Users\deluc\OneDrive\Documents\MEGA\Facultad\Electroacústica\Monografía\SPICE\Draft1.asc
+Start Time: Sun Apr 13 07:59:00 2025
+solver = Normal
+Maximum thread count: 8
+tnom = 27
+temp = 27
+method = modified trap
+Direct Newton iteration for .op point succeeded.
+Total elapsed time: 0.140 seconds.
+
